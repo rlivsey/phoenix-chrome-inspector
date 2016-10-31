@@ -1,0 +1,10 @@
+{
+  "name": "Phoenix Console",
+  "version": "0.0.0",
+  "description": "Monitor Phoenix socket traffic.",
+  "devtools_page": "boot.html",
+  "manifest_version": 2,
+  "permissions": [
+    "tabs"
+  ]
+}
