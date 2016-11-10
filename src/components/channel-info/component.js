@@ -17,8 +17,8 @@ export default function(props) {
             const key = `${message.ref}-${message.event}`;
             return (
               <tr key={key} className="message">
-                <td>{message.event}</td>
                 <td>{message.ref}</td>
+                <td>{message.event}</td>
                 <td>{JSON.stringify(message.payload)}</td>
               </tr>
             )
