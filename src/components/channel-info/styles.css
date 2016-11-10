@@ -16,4 +16,6 @@
 
 .message td {
   border-bottom: 1px solid #F0F0F0;
+  white-space: nowrap;
+  overflow: hidden;
 }

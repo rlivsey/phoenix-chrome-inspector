@@ -5,6 +5,9 @@
   padding: 10px;
   border-bottom: 1px solid #F0F0F0;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .channel-list-item:hover {
