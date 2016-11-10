@@ -1,10 +1,22 @@
 {
   "name": "Phoenix Console",
-  "version": "0.0.0",
+  "version": "0.0.0.1",
   "description": "Monitor Phoenix socket traffic.",
-  "devtools_page": "boot.html",
   "manifest_version": 2,
+  "devtools_page": "boot.html",
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content-script.js"],
+    "run_at": "document_end"
+  }],
+  "background": {
+    "scripts": ["background-script.js"]
+  },
   "permissions": [
+    "<all_urls>",
     "tabs"
+  ],
+  "web_accessible_resources": [
+    "injected-script.js"
   ]
 }
