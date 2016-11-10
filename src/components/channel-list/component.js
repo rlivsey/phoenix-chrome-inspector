@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import ChannelSparkline from '../channel-sparkline/component';
 import './styles.css';
 
 export default function(props) {
@@ -12,7 +13,10 @@ export default function(props) {
       });
 
       return <li className={itemClass} key={channel.topic} onClick={(e) => props.onSelect(channel)}>
-        {channel.topic}
+        <div className="title">{channel.topic}</div>
+        <div className="spark">
+          <ChannelSparkline messages={messages} />
+        </div>
       </li>
     })}
   </ul>

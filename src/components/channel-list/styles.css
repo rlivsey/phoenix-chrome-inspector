@@ -5,9 +5,8 @@
   padding: 10px;
   border-bottom: 1px solid #F0F0F0;
   cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
 }
 
 .channel-list-item:hover {
@@ -16,4 +15,16 @@
 
 .channel-list-item.selected {
   background-color: #F8F8F8;
+}
+
+.title {
+  flex: 1 1 0;
+  margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spark {
+  flex: 0 0 50px;
 }

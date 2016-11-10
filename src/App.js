@@ -67,11 +67,9 @@ export default class App extends Component {
 
   // TODO - should probably use immutable.js or immutability helpers here
   handleMessage({event, payload, ref, topic}) {
-    console.log("handling", event, payload, ref, topic);
-
     const messages = this.state.messages;
     const topicMessages = [].concat(messages[topic] || []).concat([{
-      event, payload, ref
+      event, payload, ref, time: new Date()
     }]);
 
     let newMessages = {};
