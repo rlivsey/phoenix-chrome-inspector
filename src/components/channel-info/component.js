@@ -16,7 +16,7 @@ export default function(props) {
           </tr>
         </thead>
         <tbody>
-          {props.messages.map(message => {
+          {sortMessages(props.messages).map(message => {
             const key = `${message.ref}-${message.event}`;
             const time = moment(message.time);
 
@@ -51,4 +51,26 @@ function findOriginalFor(messages, message) {
   }
 
   return messages.find(m => m.ref === message.ref && m !== message);
+}
+
+// Currently sorts by ref & time, so replies are next to requests
+// in future we should allow clicking the table header to re-order etc
+function sortMessages(messages) {
+  return messages.sort((a, b) => {
+    if (a.ref === b.ref) {
+      return compare(a.time, b.time);
+    } else {
+      return compare(a.ref, b.ref);
+    }
+  });
+}
+
+function compare(a, b) {
+  if (a < b) {
+    return -1;
+  } else if (a > b) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
