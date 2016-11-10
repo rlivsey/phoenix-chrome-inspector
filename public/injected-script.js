@@ -17,35 +17,41 @@
     }
   }
 
+  // TODO - use a message channel instead?
+  function sendMessage(name, data) {
+    window.postMessage({phoenix: true, name, data}, '*');
+  }
+
+  // TODO - instead of polling, can we listen and update on socket messages or something?
   function pollChannels() {
     const channels = socket.channels.map(channel => ({
       topic: channel.topic,
       state: channel.state
     }));
 
-    window.postMessage({phoenix: true, data: {channels}}, '*');
-
+    sendMessage("channel-list", channels);
     setTimeout(pollChannels, 1000);
   }
 
   function setupSocketListeners() {
-    window.postMessage({phoenix: true, data: {socket: true}}, '*');
+    sendMessage("init", {socket: true});
 
-    socket.onOpen((...args) => {
-      console.log("socket open", ...args);
+    socket.onMessage(({event, ref, topic, payload }) => {
+      sendMessage("message-received", {event, ref, topic, payload: deepClone(payload)});
     });
 
-    socket.onClose((...args) => {
-      console.log("socket closed", ...args);
-    });
+    // TODO - nicer way of hooking into socket.push?
+    var origPush = socket.push;
+    socket.push = function(data) {
+      const {event, ref, topic, payload} = data;
+      sendMessage("message-sent", {event, ref, topic, payload: deepClone(payload)});
+      return origPush.call(socket, data);
+    }
+  }
 
-    socket.onError((...args) => {
-      console.log("socket error", ...args);
-    });
-
-    socket.onMessage((...args) => {
-      console.log("socket message", ...args);
-    });
+  function deepClone(obj) {
+    if (!obj) { return; }
+    return JSON.parse(JSON.stringify(obj));
   }
 
 })();

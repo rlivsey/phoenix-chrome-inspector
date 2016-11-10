@@ -1,19 +1,34 @@
 /*global chrome:true*/
 
 import React, { Component } from 'react';
+import ChannelList from './components/channel-list/component';
+import LoadingScreen from './components/loading-screen/component';
+import ChannelInfo from './components/channel-info/component';
+
 import './App.css';
 
-class App extends Component {
+// this.backgroundPageConnection.postMessage({
+//   name: 'hello'
+// });
+
+export default class App extends Component {
 
   constructor() {
     super(...arguments);
 
+    this.selectChannel = this.selectChannel.bind(this);
+
     this.state = {
       socket: false,
-      channels: []
+      channels: [],
+      messages: {},
+      selected: null
     };
 
-    // Create a connection to the background page
+    this.connect();
+  }
+
+  connect() {
     this.backgroundPageConnection = chrome.runtime.connect({
       name: "phoenix-console"
     });
@@ -24,34 +39,67 @@ class App extends Component {
     });
 
     this.backgroundPageConnection.onMessage.addListener(message => {
-      console.log("mesage received in addon", message);
-      if (message.phoenix && message.data) {
-        this.setState(message.data);
+      if (message.phoenix && message.data && message.name) {
+        switch (message.name) {
+          case "init":
+            this.setState({ socket: true });
+            break;
+
+          case "channel-list":
+            this.setState({ channels: message.data });
+            break;
+
+          case "message-received":
+            this.handleMessage(message.data);
+            break;
+
+          case "message-sent":
+            this.handleMessage(message.data);
+            break;
+
+          default:
+            console.log("received unknown action", message.name);
+            break;
+        }
       }
     });
   }
 
-  clicked() {
-    this.backgroundPageConnection.postMessage({
-      name: 'hello'
+  // TODO - should probably use immutable.js or immutability helpers here
+  handleMessage({event, payload, ref, topic}) {
+    console.log("handling", event, payload, ref, topic);
+
+    const messages = this.state.messages;
+    const topicMessages = [].concat(messages[topic] || []).concat([{
+      event, payload, ref
+    }]);
+
+    let newMessages = {};
+    newMessages[topic] = topicMessages;
+    newMessages = Object.assign({}, messages, newMessages);
+
+    this.setState({messages: newMessages});
+  }
+
+  selectChannel(channel) {
+    this.setState({
+      selectedChannel: channel
     });
   }
 
   render() {
-    console.log("RENDERING", this.state, this.props);
-
     if (!this.state.socket) {
-      return (
-        <div className="app-loading">
-          <div className="app-loading-message">
-            <p>No phoenix socket found.</p>
-            <p>Expected to be at window._phoenixSocket.</p>
-            <p>
-              <button onClick={() => this.clicked()}>Click</button>
-            </p>
-          </div>
-        </div>
-      );
+      return <LoadingScreen />
+    }
+
+    let selectedChannelComponent;
+    if (this.state.selectedChannel) {
+      selectedChannelComponent = <ChannelInfo
+        channel={this.state.selectedChannel}
+        messages={this.state.messages[this.state.selectedChannel.topic] || []}
+      />;
+    } else {
+      selectedChannelComponent = <div>Select a channel</div>;
     }
 
     return (
@@ -62,20 +110,18 @@ class App extends Component {
 
         <div className="app-container">
           <div className="app-sidebar">
-            <h2>Channels: {this.state.channels.length}</h2>
-            <ul className="channel-list">
-              {this.state.channels.map(channel => {
-                return <li className="channel-list-item" key={channel.topic}>{channel.topic} ({channel.state})</li>
-              })}
-            </ul>
+            <ChannelList
+              channels={this.state.channels}
+              messages={this.state.messages}
+              selected={this.state.selectedChannel}
+              onSelect={this.selectChannel}
+            />
           </div>
           <div className="app-contents">
-            Contents
+            {selectedChannelComponent}
           </div>
         </div>
       </div>
     );
   }
 }
-
-export default App;

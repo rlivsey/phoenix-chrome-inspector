@@ -1,7 +1,7 @@
 (function() {
   "use strict";
 
-  // messages from the browser
+  // messages from the browser -> devtools
   window.addEventListener('message', function(event) {
     if (event.data.phoenix) {
       console.log("-->", event.data);
@@ -9,9 +9,9 @@
     }
   });
 
-  // messages from the inspector panel
+  // messages from the devtools -> browser
   chrome.runtime.onMessage.addListener(function(message) {
-    console.log("GOT MESSAGE FROM INSPECTOR", message);
+    console.log("<--", message);
     if (message.name === "init") {
       injectInPageScript();
     }

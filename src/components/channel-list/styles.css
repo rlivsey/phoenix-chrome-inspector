@@ -1,0 +1,16 @@
+.channel-list {
+}
+
+.channel-list-item {
+  padding: 10px;
+  border-bottom: 1px solid #F0F0F0;
+  cursor: pointer;
+}
+
+.channel-list-item:hover {
+  background-color: #F3F3F3;
+}
+
+.channel-list-item.selected {
+  background-color: #F8F8F8;
+}
