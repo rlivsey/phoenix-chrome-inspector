@@ -4,14 +4,12 @@
   // messages from the browser -> devtools
   window.addEventListener('message', function(event) {
     if (event.data.phoenix) {
-      console.log("-->", event.data);
       chrome.runtime.sendMessage(event.data);
     }
   });
 
   // messages from the devtools -> browser
   chrome.runtime.onMessage.addListener(function(message) {
-    console.log("<--", message);
     if (message.name === "init") {
       injectInPageScript();
     }
