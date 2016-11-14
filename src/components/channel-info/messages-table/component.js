@@ -30,7 +30,7 @@ export default function({ messages, selected, onSelect }) {
           }
 
           const itemClass = classNames({
-            message: true,
+            "message-row": true,
             selected: message === selected
           });
 
@@ -40,7 +40,11 @@ export default function({ messages, selected, onSelect }) {
               <td>{message.event}</td>
               <td>{time.format("HH:mm:ss.SSS")}</td>
               <td>{duration}</td>
-              <td>{JSON.stringify(message.payload)}</td>
+              <td>
+                <div className="message-row-payload">
+                  {JSON.stringify(message.payload)}
+                </div>
+              </td>
             </tr>
           )
         })}

@@ -4,7 +4,7 @@ import { Sparklines, SparklinesLine } from 'react-sparklines';
 export default class ChannelSparkline extends Component {
 
   componentDidMount() {
-    this._timer = setInterval(self.tick.bind(self), 100);
+    this._timer = setInterval(() => this.tick(), 100);
   }
 
   componentWillUnmount() {

@@ -59,9 +59,15 @@ export default function({ channels, selected, messages, onSelect }) {
   }
 
   return (
-    <div>
-      {activeChannelList}
-      {closedChannelList}
+    <div className="channel-list">
+      <div className="channel-list-header">
+        Channels
+      </div>
+
+      <div className="channel-list-contents">
+        {activeChannelList}
+        {closedChannelList}
+      </div>
     </div>
   );
 }

@@ -1,0 +1,8 @@
+.info-message {
+  padding: 10px;
+  border: 1px solid #CCCCCC;
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  font-size: 14px;
+  line-height: 24px;
+}

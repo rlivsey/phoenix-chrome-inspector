@@ -3,6 +3,7 @@ import './styles.css';
 
 import MessagesTable from './messages-table/component';
 import MessageInfo from './message-info/component';
+import InfoMessage from '../info-message/component';
 
 export default class ChannelInfo extends Component {
   constructor() {
@@ -25,13 +26,15 @@ export default class ChannelInfo extends Component {
 
     if (messages.length === 0) {
       return (
-        <div>
-          <p>
-            No messages seen on this channel.
-          </p>
-          <p>
-            Note, currently only messages sent/received since the panel was opened will be captured here.
-          </p>
+        <div className="selected-message-empty">
+          <InfoMessage>
+            <p>
+              No messages seen on this channel.
+            </p>
+            <p>
+              Note, currently only messages sent/received since the panel was opened will be captured here.
+            </p>
+          </InfoMessage>
         </div>
       )
     }
@@ -39,7 +42,7 @@ export default class ChannelInfo extends Component {
     let messageInfo;
     if (selected) {
       messageInfo = (
-        <div className="message-info">
+        <div className="selected-message-info">
           <MessageInfo message={selected} onClose={() => this.selectMessage(null) }/>
         </div>
       );

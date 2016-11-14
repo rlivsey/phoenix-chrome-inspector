@@ -5,11 +5,6 @@
   flex-direction: column;
 }
 
-.app-header {
-  border-bottom: 1px solid #A3A3A3;
-  padding: 10px;
-}
-
 .app-container {
   flex: 1 1 0;
   display: flex;
@@ -19,7 +14,7 @@
   flex: 0 0 auto;
   width: 300px;
   border-right: 1px solid #A3A3A3;
-  overflow: auto;
+  display: flex;
 }
 
 .app-contents {

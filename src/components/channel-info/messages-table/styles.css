@@ -14,20 +14,24 @@
   border-bottom: 1px solid #A3A3A3;
 }
 
-.message td {
+.message-row td {
   border-bottom: 1px solid #F0F0F0;
   white-space: nowrap;
   overflow: hidden;
 }
 
-.message {
+.message-row {
   cursor: pointer;
 }
 
-.message:hover {
+.message-row:hover {
   background-color: #F3F3F3;
 }
 
-.message.selected {
+.message-row.selected {
   background-color: #F8F8F8;
+}
+
+.message-row-payload {
+  overflow: hidden;
 }

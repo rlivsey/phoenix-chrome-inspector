@@ -7,17 +7,28 @@ export default function({ message, onClose }) {
 
   return (
     <div className="message-info">
-      <p>
-        <button className="close-message" onClick={() => onClose()}>close</button>
-      </p>
+      <button className="message-info-close" onClick={() => onClose()}>close</button>
 
-      <p>{message.ref}</p>
-      <p>{message.event}</p>
-      <p>{time.format("HH:mm:ss.SSS")}</p>
+      <div className="message-info-detail">
+        <div className="message-info-row">
+          <span className="message-info-label">Ref:</span>
+          <span className="message-info-value">{message.ref}</span>
+        </div>
 
-      <pre>
-        {JSON.stringify(message.payload, null, 2)}
-      </pre>
+        <div className="message-info-row">
+          <span className="message-info-label">Event:</span>
+          <span className="message-info-value">{message.event}</span>
+        </div>
+
+        <div className="message-info-row">
+          <span className="message-info-label">Time:</span>
+          <span className="message-info-value">{time.format("HH:mm:ss.SSS")}</span>
+        </div>
+      </div>
+
+      <div className="message-info-payload">
+        <pre>{JSON.stringify(message.payload, null, 2)}</pre>
+      </div>
     </div>
   );
 }

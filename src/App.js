@@ -113,16 +113,10 @@ export default class App extends Component {
         channel={this.state.selectedChannel}
         messages={this.state.messages[this.state.selectedChannel.topic] || []}
       />;
-    } else {
-      selectedChannelComponent = <div>Select a channel</div>;
     }
 
     return (
       <div className="app">
-        <div className="app-header">
-          <p>Header</p>
-        </div>
-
         <div className="app-container">
           <div className="app-sidebar">
             <ChannelList
