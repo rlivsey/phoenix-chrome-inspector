@@ -1,0 +1,33 @@
+.messages {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.messages th, .messages td {
+  padding: 10px;
+  text-align: left;
+}
+
+.messages th {
+  font-weight: bold;
+  background-color: #F3F3F3;
+  border-bottom: 1px solid #A3A3A3;
+}
+
+.message td {
+  border-bottom: 1px solid #F0F0F0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.message {
+  cursor: pointer;
+}
+
+.message:hover {
+  background-color: #F3F3F3;
+}
+
+.message.selected {
+  background-color: #F8F8F8;
+}

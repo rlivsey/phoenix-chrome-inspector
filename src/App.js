@@ -46,7 +46,7 @@ export default class App extends Component {
             break;
 
           case "channel-list":
-            this.setState({ channels: message.data });
+            this.updateChannelList(message.data);
             break;
 
           case "message-received":
@@ -63,6 +63,23 @@ export default class App extends Component {
         }
       }
     });
+  }
+
+  // merges current list with new list
+  // channels no longer in the list are marked as "closed"
+  updateChannelList(channels) {
+    const currentChannels = this.state.channels;
+    const newTopics = channels.map(channel => channel.topic);
+    const closedChannels = currentChannels.reduce((acc, channel) => {
+      if (newTopics.indexOf(channel.topic) === -1) {
+        acc.push(Object.assign({}, channel, {
+          state: "closed"
+        }));
+      }
+      return acc;
+    }, []);
+    const allChannels = channels.concat(closedChannels);
+    this.setState({ channels: allChannels });
   }
 
   // TODO - should probably use immutable.js or immutability helpers here

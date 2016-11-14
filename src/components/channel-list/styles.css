@@ -17,6 +17,10 @@
   background-color: #F8F8F8;
 }
 
+.channel-list-item.closed {
+  opacity: 0.5;
+}
+
 .title {
   flex: 1 1 0;
   margin-right: 10px;

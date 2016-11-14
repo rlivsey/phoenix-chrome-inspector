@@ -1,76 +1,62 @@
-import React from 'react';
-import moment from 'moment';
+import React, { Component } from 'react';
 import './styles.css';
 
-export default function(props) {
-  return (
-    <div>
-      <table className="messages">
-        <thead>
-          <tr>
-            <th>Ref</th>
-            <th>Event</th>
-            <th>Time</th>
-            <th>Duration</th>
-            <th>Payload</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortMessages(props.messages).map(message => {
-            const key = `${message.ref}-${message.event}`;
-            const time = moment(message.time);
+import MessagesTable from './messages-table/component';
+import MessageInfo from './message-info/component';
 
-            const original = findOriginalFor(props.messages, message);
-            let duration;
-            if (original) {
-              const diff = time.diff(moment(original.time));
-              duration = `${diff}ms`;
-            } else {
-              duration = "-";
-            }
-
-            return (
-              <tr key={key} className="message">
-                <td>{message.ref}</td>
-                <td>{message.event}</td>
-                <td>{time.format("HH:mm:ss.SSS")}</td>
-                <td>{duration}</td>
-                <td>{JSON.stringify(message.payload)}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
-  )
-}
-
-function findOriginalFor(messages, message) {
-  if (message.event !== "phx_reply") {
-    return;
+export default class ChannelInfo extends Component {
+  constructor() {
+    super(...arguments);
+    this.selectMessage = this.selectMessage.bind(this);
+    this.state = {
+      selected: null
+    };
   }
 
-  return messages.find(m => m.ref === message.ref && m !== message);
-}
+  selectMessage(message) {
+    this.setState({
+      selected: message
+    });
+  }
 
-// Currently sorts by ref & time, so replies are next to requests
-// in future we should allow clicking the table header to re-order etc
-function sortMessages(messages) {
-  return messages.sort((a, b) => {
-    if (a.ref === b.ref) {
-      return compare(a.time, b.time);
-    } else {
-      return compare(a.ref, b.ref);
+  render() {
+    const { messages } = this.props;
+    const { selected } = this.state;
+
+    if (messages.length === 0) {
+      return (
+        <div>
+          <p>
+            No messages seen on this channel.
+          </p>
+          <p>
+            Note, currently only messages sent/received since the panel was opened will be captured here.
+          </p>
+        </div>
+      )
     }
-  });
-}
 
-function compare(a, b) {
-  if (a < b) {
-    return -1;
-  } else if (a > b) {
-    return 1;
-  } else {
-    return 0;
+    let messageInfo;
+    if (selected) {
+      messageInfo = (
+        <div className="message-info">
+          <MessageInfo message={selected} onClose={() => this.selectMessage(null) }/>
+        </div>
+      );
+    }
+
+    return (
+      <div className="messages-container">
+        <div className="messages-table">
+          <MessagesTable
+            messages={messages}
+            selected={selected}
+            onSelect={message => this.selectMessage(message)}
+          />
+        </div>
+        {messageInfo}
+      </div>
+    )
   }
+
 }
