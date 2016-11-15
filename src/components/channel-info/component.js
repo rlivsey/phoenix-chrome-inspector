@@ -10,7 +10,9 @@ export default class ChannelInfo extends Component {
     super(...arguments);
     this.selectMessage = this.selectMessage.bind(this);
     this.state = {
-      selected: null
+      selected: null,
+      tableWidth: 0,
+      tableHeight: 0
     };
   }
 

@@ -1,37 +1,8 @@
-.messages {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.messages th, .messages td {
-  padding: 10px;
-  text-align: left;
-}
-
-.messages th {
-  font-weight: bold;
-  background-color: #F3F3F3;
-  border-bottom: 1px solid #A3A3A3;
-}
-
-.message-row td {
-  border-bottom: 1px solid #F0F0F0;
+.message-row-payload {
   white-space: nowrap;
   overflow: hidden;
 }
 
-.message-row {
-  cursor: pointer;
-}
-
-.message-row:hover {
-  background-color: #F3F3F3;
-}
-
-.message-row.selected {
-  background-color: #F8F8F8;
-}
-
-.message-row-payload {
-  overflow: hidden;
+.message-table-wrapper {
+  flex: 1 1 0;
 }
