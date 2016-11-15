@@ -80,7 +80,7 @@ export default class MessagesTable extends Component {
           rowsCount={rows.length}
           width={tableWidth}
           height={tableHeight}
-          headerHeight={39}
+          headerHeight={40}
           onColumnResizeEndCallback={this._onColumnResizeEndCallback}
           onRowClick={(e, index) => onSelect(rows[index])}
           isColumnResizing={false}

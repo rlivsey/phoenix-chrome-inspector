@@ -7,8 +7,8 @@ import ChannelInfo from './components/channel-info/component';
 
 import { CHANNELS, MESSAGES } from './data/dummy';
 
-import './App.css';
 import 'fixed-data-table/dist/fixed-data-table.css';
+import './App.css';
 
 // this.backgroundPageConnection.postMessage({
 //   name: 'hello'

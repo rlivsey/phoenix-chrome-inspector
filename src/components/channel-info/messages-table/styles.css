@@ -6,3 +6,15 @@
 .message-table-wrapper {
   flex: 1 1 0;
 }
+
+.message-table-wrapper .fixedDataTableLayout_main {
+  border: none;
+}
+
+.message-table-wrapper .public_fixedDataTable_header,
+.message-table-wrapper .public_fixedDataTable_header .public_fixedDataTableCell_main {
+  background-color: #F3F3F3;
+  background-image: none;
+  border: none;
+  border-bottom: 1px solid #A3A3A3;
+}
