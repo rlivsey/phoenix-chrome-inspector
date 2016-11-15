@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import filesize from 'filesize';
 import {Table, Column, Cell} from 'fixed-data-table';
 
@@ -25,12 +25,12 @@ export default class MessagesTable extends Component {
 
     this._onColumnResizeEndCallback = this._onColumnResizeEndCallback.bind(this);
     this._onResize = this._onResize.bind(this);
-    this._update = this._update.bind(this);
+    this._checkDimensions = this._checkDimensions.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener('resize', this._onResize, false);
-    this._update();
+    this._checkDimensions();
   }
 
   componentWillUnmount() {
@@ -38,16 +38,18 @@ export default class MessagesTable extends Component {
   }
 
   _onResize() {
-    clearTimeout(this._updateTimer);
-    this._updateTimer = setTimeout(this._update, 16);
+    clearTimeout(this._checkDimensionsTimer);
+    this._checkDimensionsTimer = setTimeout(this._checkDimensions, 16);
   }
 
-  _update() {
+  _checkDimensions() {
     const { width, height } = this.tableWrapper.getBoundingClientRect();
-    this.setState({
-      tableWidth: width,
-      tableHeight: height
-    });
+    if (this.state.tableWidth !== width || this.state.tableHeight !== height) {
+      this.setState({
+        tableWidth: width,
+        tableHeight: height
+      });
+    }
   }
 
   _onColumnResizeEndCallback(newColumnWidth, columnKey) {
@@ -59,8 +61,14 @@ export default class MessagesTable extends Component {
     }));
   }
 
+  // TODO - should move the size calculating upwards to the ChannelInfoComponent
+  //        as this one shouldn't know/care about it
+  componentDidUpdate() {
+    this._checkDimensions();
+  }
+
   render() {
-    const { messages, selected, onSelect } = this.props;
+    const { messages, onSelect } = this.props;
     const { columnWidths, tableWidth, tableHeight } = this.state;
 
     const rows = sortMessages(messages);
@@ -74,6 +82,7 @@ export default class MessagesTable extends Component {
           height={tableHeight}
           headerHeight={39}
           onColumnResizeEndCallback={this._onColumnResizeEndCallback}
+          onRowClick={(e, index) => onSelect(rows[index])}
           isColumnResizing={false}
           {...this.props}
         >
@@ -136,58 +145,6 @@ export default class MessagesTable extends Component {
         </Table>
       </div>
     )
-
-    return (
-      <table className="messages">
-        <thead>
-          <tr>
-            <th>Ref</th>
-            <th>Event</th>
-            <th>Time</th>
-            <th>Duration</th>
-            <th>Size</th>
-            <th>Payload</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortMessages(messages).map(message => {
-            const key = `${message.ref}-${message.event}`;
-            const time = moment(message.time);
-
-            const original = findOriginalFor(messages, message);
-            let duration;
-            if (original) {
-              const diff = time.diff(moment(original.time));
-              duration = `${diff}ms`;
-            } else {
-              duration = "-";
-            }
-
-            const itemClass = classNames({
-              "message-row": true,
-              selected: message === selected
-            });
-
-            const size = JSON.stringify(message.payload).length;
-
-            return (
-              <tr key={key} className={itemClass} onClick={(e) => onSelect(message)}>
-                <td>{message.ref}</td>
-                <td>{message.event}</td>
-                <td>{time.format("HH:mm:ss.SSS")}</td>
-                <td>{duration}</td>
-                <td>{filesize(size)}</td>
-                <td>
-                  <div className="message-row-payload">
-                    {JSON.stringify(message.payload)}
-                  </div>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    )
   }
 }
 
@@ -232,4 +189,5 @@ function durationFor(message, messages) {
   } else {
     duration = "-";
   }
+  return duration;
 }
