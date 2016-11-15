@@ -9,9 +9,8 @@ function ChannelListItem({ channel, messages, selected, onSelect }) {
     [channel.state]: true,
     selected: selected && selected.topic === channel.topic
   });
-
   return (
-    <li className={itemClass} key={channel.topic} onClick={() => onSelect(channel)}>
+    <li className={itemClass} onClick={() => onSelect(channel)}>
       <div className="title">{channel.topic}</div>
       <div className="spark">
         <ChannelSparkline messages={messages} />
@@ -31,6 +30,7 @@ export default function({ channels, selected, messages, onSelect }) {
         {sortBy("topic", activeChannels).map(channel => {
           const channelMessages = messages[channel.topic] || [];
           return <ChannelListItem
+            key={channel.topic}
             messages={channelMessages}
             selected={selected}
             onSelect={onSelect}
@@ -42,12 +42,13 @@ export default function({ channels, selected, messages, onSelect }) {
   }
 
   let closedChannelList = null;
-  if (activeChannels.length) {
+  if (closedChannels.length) {
     closedChannelList = (
       <ul className="channel-list">
         {sortBy("topic", closedChannels).map(channel => {
           const channelMessages = messages[channel.topic] || [];
           return <ChannelListItem
+            key={channel.topic}
             messages={channelMessages}
             selected={selected}
             onSelect={onSelect}

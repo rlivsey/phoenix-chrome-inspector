@@ -5,6 +5,8 @@ import ChannelList from './components/channel-list/component';
 import LoadingScreen from './components/loading-screen/component';
 import ChannelInfo from './components/channel-info/component';
 
+import { CHANNELS, MESSAGES } from './data/dummy';
+
 import './App.css';
 
 // this.backgroundPageConnection.postMessage({
@@ -18,14 +20,23 @@ export default class App extends Component {
 
     this.selectChannel = this.selectChannel.bind(this);
 
-    this.state = {
-      socket: false,
-      channels: [],
-      messages: {},
-      selected: null
-    };
-
-    this.connect();
+    // give us some dummy data to play with when not in the devtools
+    if (process.env.NODE_ENV === "development") {
+      this.state = {
+        socket: true,
+        channels: CHANNELS,
+        messages: MESSAGES,
+        selected: null
+      };
+    } else {
+      this.state = {
+        socket: false,
+        channels: [],
+        messages: {},
+        selected: null
+      };
+      this.connect();
+    }
   }
 
   connect() {
