@@ -139,6 +139,7 @@ export default class MessagesTable extends Component {
                 <div className="message-row-payload">{JSON.stringify(rows[rowIndex].payload)}</div>
               </Cell>
             )}
+            flexGrow={1}
             isResizable={true}
             width={columnWidths.payload}
           />
