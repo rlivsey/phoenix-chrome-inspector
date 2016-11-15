@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-// import classNames from 'classnames';
+import classNames from 'classnames';
 import filesize from 'filesize';
 import {Table, Column, Cell} from 'fixed-data-table';
 
 import './styles.css';
+
+function MessageCell({messages, selected, rowIndex, data, col, ...props}) {
+  const messageClass = classNames({
+    selected: selected === messages[rowIndex]
+  });
+
+  return (
+    <Cell className={messageClass} {...props}>
+      {props.children}
+    </Cell>
+  )
+}
 
 export default class MessagesTable extends Component {
 
@@ -68,7 +80,7 @@ export default class MessagesTable extends Component {
   }
 
   render() {
-    const { messages, onSelect } = this.props;
+    const { messages, selected, onSelect } = this.props;
     const { columnWidths, tableWidth, tableHeight } = this.state;
 
     const rows = sortMessages(messages);
@@ -90,9 +102,9 @@ export default class MessagesTable extends Component {
             columnKey="ref"
             header={<Cell>Ref</Cell>}
             cell={({rowIndex, ...props}) => (
-              <Cell {...props}>
+              <MessageCell messages={messages} selected={selected} rowIndex={rowIndex} {...props}>
                 {rows[rowIndex].ref}
-              </Cell>
+              </MessageCell>
             )}
             fixed={true}
             isResizable={true}
@@ -102,9 +114,9 @@ export default class MessagesTable extends Component {
             columnKey="event"
             header={<Cell>Event</Cell>}
             cell={({rowIndex, ...props}) => (
-              <Cell {...props}>
+              <MessageCell messages={messages} selected={selected} rowIndex={rowIndex} {...props}>
                 {rows[rowIndex].event}
-              </Cell>
+              </MessageCell>
             )}
             isResizable={true}
             width={columnWidths.event}
@@ -113,9 +125,9 @@ export default class MessagesTable extends Component {
             columnKey="time"
             header={<Cell>Time</Cell>}
             cell={({rowIndex, ...props}) => (
-              <Cell {...props}>
+              <MessageCell messages={messages} selected={selected} rowIndex={rowIndex} {...props}>
                 {durationFor(rows[rowIndex], messages)}
-              </Cell>
+              </MessageCell>
             )}
             isResizable={true}
             width={columnWidths.time}
@@ -124,9 +136,9 @@ export default class MessagesTable extends Component {
             columnKey="size"
             header={<Cell>Size</Cell>}
             cell={({rowIndex, ...props}) => (
-              <Cell {...props}>
+              <MessageCell messages={messages} selected={selected} rowIndex={rowIndex} {...props}>
                 {filesize(JSON.stringify(rows[rowIndex].payload).length)}
-              </Cell>
+              </MessageCell>
             )}
             isResizable={true}
             width={columnWidths.size}
@@ -135,9 +147,9 @@ export default class MessagesTable extends Component {
             columnKey="payload"
             header={<Cell>Payload</Cell>}
             cell={({rowIndex, ...props}) => (
-              <Cell {...props}>
+              <MessageCell messages={messages} selected={selected} rowIndex={rowIndex} {...props}>
                 <div className="message-row-payload">{JSON.stringify(rows[rowIndex].payload)}</div>
-              </Cell>
+              </MessageCell>
             )}
             flexGrow={1}
             isResizable={true}

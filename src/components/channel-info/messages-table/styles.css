@@ -18,3 +18,7 @@
   border: none;
   border-bottom: 1px solid #A3A3A3;
 }
+
+.message-table-wrapper .public_fixedDataTableCell_wrap1.selected {
+  background-color: #F3F3F3;
+}
