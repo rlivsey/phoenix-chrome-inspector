@@ -7,8 +7,13 @@ import {Table, Column, Cell} from 'fixed-data-table';
 import './styles.css';
 
 function MessageCell({messages, selected, rowIndex, data, col, ...props}) {
+  const message = messages[rowIndex];
+  const payload = message.payload || {};
+
   const messageClass = classNames({
-    selected: selected === messages[rowIndex]
+    selected:       selected === message,
+    "status-ok":    payload.status === "ok",
+    "status-error": payload.status === "error"
   });
 
   return (
@@ -28,8 +33,8 @@ export default class MessagesTable extends Component {
       tableHeight: 0,
       columnWidths: {
         ref:     50,
-        event:   200,
-        size:    100,
+        event:   100,
+        size:    75,
         time:    100,
         payload: 400,
       },
@@ -103,7 +108,7 @@ export default class MessagesTable extends Component {
             header={<Cell>Ref</Cell>}
             cell={({rowIndex, ...props}) => (
               <MessageCell messages={messages} selected={selected} rowIndex={rowIndex} {...props}>
-                {rows[rowIndex].ref}
+                {rows[rowIndex].ref || '-'}
               </MessageCell>
             )}
             fixed={true}

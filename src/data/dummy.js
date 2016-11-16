@@ -5,8 +5,12 @@ export const CHANNELS = TOPICS.map(topic => ({
 }));
 
 
-function randomPayload(depth=0) {
+function randomPayload(depth=0, request=false) {
   let payload = {};
+
+  if (request) {
+    payload.status = Math.random() > 0.3 ? "ok" : "error";
+  }
 
   const numKeys = Math.floor(Math.random() * 10);
   for (let i=0; i<numKeys; i++) {
@@ -51,7 +55,7 @@ export const MESSAGES = (function() {
     time = new Date(time.getTime() - (Math.random() * 1000));
 
     messages[topic].push({
-      payload: randomPayload(),
+      payload: randomPayload(0, event == "phx_reply"),
       event,
       ref,
       time,
