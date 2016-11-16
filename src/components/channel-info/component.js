@@ -23,7 +23,7 @@ export default class ChannelInfo extends Component {
   }
 
   render() {
-    const { messages } = this.props;
+    const { messages, onClear } = this.props;
     const { selected } = this.state;
 
     if (messages.length === 0) {
@@ -52,6 +52,9 @@ export default class ChannelInfo extends Component {
 
     return (
       <div className="messages-container">
+        <div className="messages-header">
+          <button onClick={onClear}>Clear</button>
+        </div>
         <div className="messages-table">
           <MessagesTable
             messages={messages}

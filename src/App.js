@@ -121,6 +121,14 @@ export default class App extends Component {
     });
   }
 
+  clearChannelMessages(topic) {
+    const messages = this.state.messages;
+    const newMessages = Object.assign({}, messages, { [topic]: [] });
+    this.setState({
+      messages: newMessages
+    });
+  }
+
   render() {
     if (!this.state.socket) {
       return <LoadingScreen />
@@ -131,6 +139,7 @@ export default class App extends Component {
       selectedChannelComponent = <ChannelInfo
         channel={this.state.selectedChannel}
         messages={this.state.messages[this.state.selectedChannel.topic] || []}
+        onClear={() => this.clearChannelMessages(this.state.selectedChannel.topic)}
       />;
     }
 
