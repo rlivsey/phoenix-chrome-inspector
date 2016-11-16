@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import ChannelSparkline from '../channel-sparkline/component';
+import ClearButton from '../clear-button/component';
 import './styles.css';
 
 function ChannelListItem({ channel, messages, selected, onSelect }) {
@@ -82,9 +83,18 @@ export default class ChannelList extends Component {
     return (
       <div className="channel-list">
         <div className="channel-list-header">
-          Channels
-          <input type="search" placeholder="Filter" value={filter} onChange={this.filterChannels} />
-          <button onClick={onClearOldChannels}>clear</button>
+          <div className="channel-list-header-filter">
+            <input
+              className="channel-list-header-filter-input"
+              type="search"
+              placeholder="Filter Channels"
+              value={filter}
+              onChange={this.filterChannels}
+            />
+          </div>
+          <div className="channel-list-header-clear">
+            <ClearButton onClick={onClearOldChannels} />
+          </div>
         </div>
 
         <div className="channel-list-contents">

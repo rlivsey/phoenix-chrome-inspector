@@ -4,6 +4,7 @@ import './styles.css';
 import MessagesTable from './messages-table/component';
 import MessageInfo from './message-info/component';
 import InfoMessage from '../info-message/component';
+import ClearButton from '../clear-button/component';
 
 export default class ChannelInfo extends Component {
   constructor() {
@@ -23,7 +24,7 @@ export default class ChannelInfo extends Component {
   }
 
   render() {
-    const { messages, onClear } = this.props;
+    const { messages, channel, onClear } = this.props;
     const { selected } = this.state;
 
     if (messages.length === 0) {
@@ -53,7 +54,12 @@ export default class ChannelInfo extends Component {
     return (
       <div className="messages-container">
         <div className="messages-header">
-          <button onClick={onClear}>Clear</button>
+          <div className="messages-header-title">
+            Messages in {channel.topic}
+          </div>
+          <div className="messages-header-clear">
+            <ClearButton onClick={onClear} />
+          </div>
         </div>
         <div className="messages-table">
           <MessagesTable

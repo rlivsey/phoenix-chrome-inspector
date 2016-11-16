@@ -1,0 +1,10 @@
+.clear-button {
+  background-color: inherit;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.clear-button .svg-stroke {
+  stroke: #404040;
+}

@@ -4,6 +4,24 @@
   flex-direction: column;
 }
 
+.messages-header {
+  background-color: #F3F3F3;
+  font-weight: bold;
+  flex: 0 0 auto;
+  padding: 10px;
+  border-bottom: 1px solid #A3A3A3;
+  display: flex;
+  align-items: center;
+}
+
+.messages-header-title {
+  flex: 1 1 0;
+}
+
+.messages-header-clear {
+
+}
+
 .selected-message-empty {
   flex: 1 1 0;
   display: flex;
