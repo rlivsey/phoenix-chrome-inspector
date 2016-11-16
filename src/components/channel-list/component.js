@@ -36,7 +36,7 @@ export default class ChannelList extends Component {
   }
 
   render() {
-    const { channels, selected, messages, onSelect } = this.props;
+    const { channels, selected, messages, onSelect, onClearOldChannels } = this.props;
     const { filter } = this.state;
 
     const filteredChannels = channels.filter(channel => channel.topic.indexOf(filter) !== -1);
@@ -84,6 +84,7 @@ export default class ChannelList extends Component {
         <div className="channel-list-header">
           Channels
           <input type="search" placeholder="Filter" value={filter} onChange={this.filterChannels} />
+          <button onClick={onClearOldChannels}>clear</button>
         </div>
 
         <div className="channel-list-contents">

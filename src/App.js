@@ -20,6 +20,7 @@ export default class App extends Component {
     super(...arguments);
 
     this.selectChannel = this.selectChannel.bind(this);
+    this.clearOldChannels = this.clearOldChannels.bind(this);
 
     // give us some dummy data to play with when not in the devtools
     if (process.env.NODE_ENV === "development") {
@@ -94,6 +95,12 @@ export default class App extends Component {
     this.setState({ channels: allChannels });
   }
 
+  clearOldChannels() {
+    this.setState({
+      channels: this.state.channels.filter(channel => channel.state !== "closed")
+    });
+  }
+
   // TODO - should probably use immutable.js or immutability helpers here
   handleMessage({event, payload, ref, topic}) {
     const messages = this.state.messages;
@@ -136,6 +143,7 @@ export default class App extends Component {
               messages={this.state.messages}
               selected={this.state.selectedChannel}
               onSelect={this.selectChannel}
+              onClearOldChannels={this.clearOldChannels}
             />
           </div>
           <div className="app-contents">
