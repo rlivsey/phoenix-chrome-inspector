@@ -88,11 +88,11 @@ export default class MessagesTable extends Component {
     return (
       <div className="message-table-wrapper" ref={(table) => this.tableWrapper = table}>
         <Table
-          rowHeight={39}
+          rowHeight={35}
           rowsCount={rows.length}
           width={tableWidth}
           height={tableHeight}
-          headerHeight={40}
+          headerHeight={36}
           onColumnResizeEndCallback={this._onColumnResizeEndCallback}
           onRowClick={(e, index) => onSelect(rows[index])}
           isColumnResizing={false}
