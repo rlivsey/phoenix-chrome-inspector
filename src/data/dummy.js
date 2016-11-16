@@ -55,7 +55,7 @@ export const MESSAGES = (function() {
     time = new Date(time.getTime() - (Math.random() * 1000));
 
     messages[topic].push({
-      payload: randomPayload(0, event == "phx_reply"),
+      payload: randomPayload(0, event === "phx_reply"),
       event,
       ref,
       time,

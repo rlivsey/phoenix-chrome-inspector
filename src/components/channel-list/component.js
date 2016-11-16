@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import ChannelSparkline from '../channel-sparkline/component';
 import './styles.css';
@@ -19,58 +19,80 @@ function ChannelListItem({ channel, messages, selected, onSelect }) {
   );
 }
 
-export default function({ channels, selected, messages, onSelect }) {
-  const activeChannels = channels.filter(channel => channel.state !== "closed");
-  const closedChannels = channels.filter(channel => channel.state === "closed");
+export default class ChannelList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: ''
+    };
 
-  let activeChannelList = null;
-  if (activeChannels.length) {
-    activeChannelList = (
-      <ul className="channel-list">
-        {sortBy("topic", activeChannels).map(channel => {
-          const channelMessages = messages[channel.topic] || [];
-          return <ChannelListItem
-            key={channel.topic}
-            messages={channelMessages}
-            selected={selected}
-            onSelect={onSelect}
-            channel={channel}
-          />
-        })}
-      </ul>
-    );
+    this.filterChannels = this.filterChannels.bind(this);
   }
 
-  let closedChannelList = null;
-  if (closedChannels.length) {
-    closedChannelList = (
-      <ul className="channel-list">
-        {sortBy("topic", closedChannels).map(channel => {
-          const channelMessages = messages[channel.topic] || [];
-          return <ChannelListItem
-            key={channel.topic}
-            messages={channelMessages}
-            selected={selected}
-            onSelect={onSelect}
-            channel={channel}
-          />
-        })}
-      </ul>
-    );
+  filterChannels(event) {
+    this.setState({
+      filter: event.target.value
+    });
   }
 
-  return (
-    <div className="channel-list">
-      <div className="channel-list-header">
-        Channels
-      </div>
+  render() {
+    const { channels, selected, messages, onSelect } = this.props;
+    const { filter } = this.state;
 
-      <div className="channel-list-contents">
-        {activeChannelList}
-        {closedChannelList}
+    const filteredChannels = channels.filter(channel => channel.topic.indexOf(filter) !== -1);
+    const activeChannels   = filteredChannels.filter(channel => channel.state !== "closed");
+    const closedChannels   = filteredChannels.filter(channel => channel.state === "closed");
+
+    let activeChannelList = null;
+    if (activeChannels.length) {
+      activeChannelList = (
+        <ul className="channel-list">
+          {sortBy("topic", activeChannels).map(channel => {
+            const channelMessages = messages[channel.topic] || [];
+            return <ChannelListItem
+              key={channel.topic}
+              messages={channelMessages}
+              selected={selected}
+              onSelect={onSelect}
+              channel={channel}
+            />
+          })}
+        </ul>
+      );
+    }
+
+    let closedChannelList = null;
+    if (closedChannels.length) {
+      closedChannelList = (
+        <ul className="channel-list">
+          {sortBy("topic", closedChannels).map(channel => {
+            const channelMessages = messages[channel.topic] || [];
+            return <ChannelListItem
+              key={channel.topic}
+              messages={channelMessages}
+              selected={selected}
+              onSelect={onSelect}
+              channel={channel}
+            />
+          })}
+        </ul>
+      );
+    }
+
+    return (
+      <div className="channel-list">
+        <div className="channel-list-header">
+          Channels
+          <input type="search" placeholder="Filter" value={filter} onChange={this.filterChannels} />
+        </div>
+
+        <div className="channel-list-contents">
+          {activeChannelList}
+          {closedChannelList}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 function sortBy(key, array) {
