@@ -19,6 +19,8 @@ function randomPayload(depth=0) {
 export const MESSAGES = (function() {
   let time = new Date();
   let total = 100;
+  let prevTopic;
+  let prevWasReply = false;
 
   let messages = {};
   TOPICS.forEach(topic => {
@@ -27,11 +29,30 @@ export const MESSAGES = (function() {
 
   for (let i=0; i<total; i++) {
     let ref = total - i;
+    let event = "update";
+    let topic;
+
+    if (prevWasReply) {
+      prevWasReply = false;
+      topic = prevTopic;
+      event = "request";
+    } else {
+      topic = TOPICS[Math.floor(Math.random() * TOPICS.length)];
+    }
+
+    if (i % 2 === 0 && Math.random() < 0.5) {
+      ref = (total - i) - 1;
+      event = "phx_reply";
+      prevWasReply = true;
+    }
+
+    prevTopic = topic;
+
     time = new Date(time.getTime() - (Math.random() * 1000));
-    let topic = TOPICS[Math.floor(Math.random() * TOPICS.length)];
+
     messages[topic].push({
-      event: "some:event",
       payload: randomPayload(),
+      event,
       ref,
       time,
       topic
