@@ -51,6 +51,10 @@ export default class App extends Component {
       tabId: chrome.devtools.inspectedWindow.tabId
     });
 
+    chrome.devtools.network.onNavigated.addListener(() => {
+      window.location.reload(true);
+    });
+
     this.backgroundPageConnection.onMessage.addListener(message => {
       if (message.phoenix && message.data && message.name) {
         switch (message.name) {
