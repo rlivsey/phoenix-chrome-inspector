@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import CloseButton from '../../close-button/component';
 import './styles.css';
 
 export default function({ message, onClose }) {
@@ -7,7 +8,9 @@ export default function({ message, onClose }) {
 
   return (
     <div className="message-info">
-      <button className="message-info-close" onClick={() => onClose()}>close</button>
+      <div className="message-info-close">
+        <CloseButton onClick={() => onClose()} />
+      </div>
 
       <div className="message-info-detail">
         <div className="message-info-row">
