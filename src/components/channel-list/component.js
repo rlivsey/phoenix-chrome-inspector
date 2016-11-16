@@ -5,16 +5,24 @@ import ClearButton from '../clear-button/component';
 import './styles.css';
 
 function ChannelListItem({ channel, messages, selected, onSelect }) {
+  const isSelected = selected && selected.topic === channel.topic;
+
   const itemClass = classNames({
     "channel-list-item": true,
     [channel.state]: true,
-    selected: selected && selected.topic === channel.topic
+    selected: isSelected
   });
+
+  const sparkColor = isSelected ? "#FFFFFF" : "#3879D9";
+
   return (
     <li className={itemClass} onClick={() => onSelect(channel)}>
       <div className="title">{channel.topic}</div>
       <div className="spark">
-        <ChannelSparkline messages={messages} />
+        <ChannelSparkline
+          messages={messages}
+          color={sparkColor}
+        />
       </div>
     </li>
   );

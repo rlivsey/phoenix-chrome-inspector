@@ -27,6 +27,12 @@
   background-color: #E3F7DA;
 }
 
-.message-table-wrapper .public_fixedDataTableCell_wrap1.selected {
+.message-table-wrapper .public_fixedDataTableRow_main:hover .public_fixedDataTableCell_wrap1 {
   background-color: #F3F3F3;
+}
+
+.message-table-wrapper .public_fixedDataTableCell_wrap1.selected,
+.message-table-wrapper .public_fixedDataTableRow_main:hover .public_fixedDataTableCell_wrap1.selected {
+  background-color: #3879D9;
+  color: #FFF;
 }

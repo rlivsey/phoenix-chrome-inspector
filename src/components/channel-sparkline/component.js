@@ -43,9 +43,11 @@ export default class ChannelSparkline extends Component {
   }
 
   render() {
+    const { color } = this.props;
+
     return (
       <Sparklines data={this.data()} limit={60} width={50} height={20}>
-        <SparklinesLine color="blue" />
+        <SparklinesLine color={color || "#3879D9"} />
       </Sparklines>
     );
   }

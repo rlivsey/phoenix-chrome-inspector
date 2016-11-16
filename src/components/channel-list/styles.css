@@ -50,7 +50,8 @@
 }
 
 .channel-list-item.selected {
-  background-color: #F8F8F8;
+  background-color: #3879D9;
+  color: #FFF;
 }
 
 .channel-list-item.closed {
