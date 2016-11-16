@@ -32,11 +32,12 @@ export default class MessagesTable extends Component {
       tableWidth: 0,
       tableHeight: 0,
       columnWidths: {
-        ref:     50,
-        event:   100,
-        size:    75,
-        time:    100,
-        payload: 400,
+        ref:      50,
+        event:    100,
+        size:     75,
+        time:     100,
+        duration: 75,
+        payload:  400,
       },
     };
 
@@ -131,11 +132,22 @@ export default class MessagesTable extends Component {
             header={<Cell>Time</Cell>}
             cell={({rowIndex, ...props}) => (
               <MessageCell messages={messages} selected={selected} rowIndex={rowIndex} {...props}>
-                {durationFor(rows[rowIndex], messages)}
+                {moment(rows[rowIndex].time).format("HH:mm:ss.SSS")}
               </MessageCell>
             )}
             isResizable={true}
             width={columnWidths.time}
+          />
+          <Column
+            columnKey="duration"
+            header={<Cell>Duration</Cell>}
+            cell={({rowIndex, ...props}) => (
+              <MessageCell messages={messages} selected={selected} rowIndex={rowIndex} {...props}>
+                {durationFor(rows[rowIndex], messages)}
+              </MessageCell>
+            )}
+            isResizable={true}
+            width={columnWidths.duration}
           />
           <Column
             columnKey="size"
